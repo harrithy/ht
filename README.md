@@ -1,8 +1,8 @@
-# HT (Harrio Transition) 🌐⚡
+# HT (Harrio Translate) 🌐⚡
 
-> **Harrio Transition** —— 由 **Harrio** 打造的下一代低延迟、高并发、多模态实时翻译引擎与工作台。
+> **Harrio Translate** —— 由 **Harrio** 打造的下一代低延迟、高并发、多模态实时翻译引擎与工作台。
 >
-> 名字寓意：**H**arrio × **T**ransition（转译 / 跨越语言与时空的跃迁）。
+> 名字寓意：**H**arrio × **T**ranslate（实时转译与多语言即时翻译）。
 
 ---
 
@@ -33,7 +33,7 @@
        │ (WebSocket / WebRTC)
        ▼
 ┌──────────────────────────────────────────────┐
-│          HT Core Engine (Harrio Transition)  │
+│          HT Core Engine (Harrio Translate)    │
 │  ┌───────────────┐     ┌──────────────────┐  │
 │  │ ASR 流式识别   │ ──► │  智能断句与分块   │  │
 │  └───────────────┘     └────────┬─────────┘  │
