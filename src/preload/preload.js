@@ -19,5 +19,8 @@ contextBridge.exposeInMainWorld('htAPI', {
   // 状态与配置
   getAppVersion: () => ipcRenderer.invoke('app:get-version'),
   saveSettings: (settings) => ipcRenderer.invoke('settings:save', settings),
-  getSettings: () => ipcRenderer.invoke('settings:get')
+  getSettings: () => ipcRenderer.invoke('settings:get'),
+
+  // 系统音频捕获源
+  getDesktopSources: () => ipcRenderer.invoke('desktop-capturer:get-sources')
 });

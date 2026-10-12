@@ -3,25 +3,35 @@
 @tailwind utilities;
 
 // ==========================================
-// SCSS 变量与 Mixin 定义
+// SCSS 变量与设计规范
 // ==========================================
-$bg-primary: #0a0f1d;
-$bg-secondary: rgba(18, 24, 38, 0.75);
-$bg-tertiary: rgba(30, 41, 59, 0.6);
-$accent-mint: #a7f3d0;
-$accent-cyan: #38bdf8;
-$accent-pink: #f472b6;
-$border-glass: rgba(255, 255, 255, 0.08);
+$bg-app: #080c14;
+$bg-sidebar: rgba(15, 23, 42, 0.75);
+$bg-card: rgba(17, 24, 39, 0.7);
+$bg-input: rgba(30, 41, 59, 0.65);
 
-@mixin glass-panel {
-  background: $bg-secondary;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+$mint: #a7f3d0;
+$mint-glow: rgba(167, 243, 208, 0.25);
+$cyan: #38bdf8;
+$pink: #f472b6;
+$emerald: #10b981;
+$danger: #ef4444;
+
+$text-primary: #f8fafc;
+$text-secondary: #94a3b8;
+$text-dim: #64748b;
+$border-glass: rgba(255, 255, 255, 0.08);
+$border-focus: rgba(167, 243, 208, 0.45);
+
+@mixin glassmorphism {
+  background: $bg-card;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid $border-glass;
 }
 
 // ==========================================
-// 全局样式与嵌套规则 (SCSS Nesting)
+// 基础全局重置与自定义细滚动条
 // ==========================================
 * {
   box-sizing: border-box;
@@ -30,41 +40,72 @@ $border-glass: rgba(255, 255, 255, 0.08);
   user-select: none;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  &:hover {
+    background: rgba(167, 243, 208, 0.35);
+  }
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: $bg-primary;
-  color: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: $bg-app;
+  color: $text-primary;
   overflow: hidden;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-// 标题栏
+// ==========================================
+// 自定义无边框顶栏 (Title Bar)
+// ==========================================
 .title-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 42px;
   padding: 0 16px;
-  background: rgba(10, 15, 29, 0.95);
+  background: rgba(8, 12, 20, 0.96);
   border-bottom: 1px solid $border-glass;
   -webkit-app-region: drag;
+  flex-shrink: 0;
 
   .brand {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
 
     .brand-badge {
-      background: linear-gradient(135deg, $accent-mint, $accent-cyan);
-      color: #041019;
+      background: linear-gradient(135deg, $mint, $cyan);
+      color: #030a10;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 900;
       padding: 2px 6px;
       border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-name {
+      color: $text-primary;
+      font-weight: 700;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      color: $text-dim;
+      font-weight: normal;
+      margin-left: 2px;
     }
   }
 
@@ -76,7 +117,7 @@ body {
     .btn-ctrl {
       background: transparent;
       border: none;
-      color: #94a3b8;
+      color: $text-secondary;
       width: 28px;
       height: 28px;
       border-radius: 6px;
@@ -84,197 +125,485 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);
-        color: #f8fafc;
+        color: $text-primary;
       }
 
       &.btn-close:hover {
-        background: #ef4444;
+        background: $danger;
         color: #fff;
       }
     }
   }
 }
 
-// 核心工作台容器
+// ==========================================
+// 主工作区容器
+// ==========================================
 .container {
   display: flex;
   flex: 1;
-  padding: 16px;
-  gap: 16px;
+  padding: 14px;
+  gap: 14px;
   height: calc(100vh - 42px);
   overflow: hidden;
+}
 
-  .sidebar {
-    width: 260px;
-    @include glass-panel;
-    border-radius: 16px;
-    padding: 18px;
+// ==========================================
+// 侧边控制面板 (Sidebar)
+// ==========================================
+.sidebar {
+  width: 310px;
+  @include glassmorphism;
+  background: $bg-sidebar;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+
+  .sidebar-header {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
     .panel-title {
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
-      color: #94a3b8;
-      letter-spacing: 1px;
+      color: $text-secondary;
+      letter-spacing: 0.8px;
     }
 
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-
-      .control-label {
-        font-size: 12px;
-        color: #94a3b8;
-      }
-
-      .select-control, .input-control {
-        background: $bg-tertiary;
-        border: 1px solid $border-glass;
-        color: #f8fafc;
-        padding: 8px 12px;
-        border-radius: 10px;
-        font-size: 13px;
-        outline: none;
-        transition: border-color 0.2s;
-
-        &:focus {
-          border-color: rgba(167, 243, 208, 0.4);
-        }
-      }
-    }
-
-    .btn-action {
-      background: linear-gradient(135deg, #10b981, #06b6d4);
-      border: none;
-      color: #041019;
-      font-weight: 600;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: opacity 0.2s, transform 0.1s;
-
-      &:hover { opacity: 0.92; }
-      &:active { transform: scale(0.98); }
-
-      &.listening {
-        background: linear-gradient(135deg, $accent-pink, #ef4444);
-        color: #fff;
-        animation: pulse 1.5s infinite;
-      }
-    }
-
-    .btn-secondary {
-      background: $bg-tertiary;
-      border: 1px solid $border-glass;
-      color: #f8fafc;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 13px;
-      transition: all 0.2s;
-
-      &:hover { background: rgba(255, 255, 255, 0.1); }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: $emerald;
+      border-radius: 50%;
+      box-shadow: 0 0 8px $emerald;
     }
   }
 
-  .main-workspace {
+  .sidebar-body {
     flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    height: 100%;
+    gap: 11px;
+  }
 
-    .stream-card {
-      flex: 1;
-      @include glass-panel;
-      border-radius: 16px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+  .sidebar-footer {
+    flex-shrink: 0;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
 
-      .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
+// 控件组通用规范
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 
-        .card-title {
-          font-size: 14px;
-          font-weight: 600;
-          color: $accent-mint;
-          display: flex;
-          align-items: center;
-          gap: 8px;
+  .control-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: $text-secondary;
+  }
 
-          .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-          }
-        }
-      }
+  .link-hint {
+    font-size: 11px;
+    color: $mint;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    &:hover { opacity: 0.8; }
+  }
 
-      .stream-content {
-        flex: 1;
-        background: rgba(0, 0, 0, 0.2);
-        border: 1px solid $border-glass;
-        border-radius: 10px;
-        padding: 14px;
-        font-size: 15px;
-        line-height: 1.6;
-        overflow-y: auto;
-        user-select: text;
-        white-space: pre-wrap;
+  .select-control, .input-control {
+    width: 100%;
+    background: $bg-input;
+    border: 1px solid $border-glass;
+    color: $text-primary;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 
-        &:empty::before {
-          content: "等待音频或文本输入流中...";
-          color: #94a3b8;
-          font-style: italic;
-          font-size: 13px;
-        }
-      }
+    &:focus {
+      border-color: $border-focus;
+      box-shadow: 0 0 0 2px $mint-glow;
     }
 
-    .input-box-container {
-      display: flex;
-      gap: 10px;
-
-      .text-input-field {
-        flex: 1;
-        background: $bg-tertiary;
-        border: 1px solid $border-glass;
-        color: #f8fafc;
-        padding: 12px 16px;
-        border-radius: 10px;
-        font-size: 14px;
-        outline: none;
-
-        &:focus {
-          border-color: rgba(167, 243, 208, 0.4);
-        }
-      }
+    option {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 6px;
     }
   }
 }
 
-// 悬浮同传字幕样式
+// 语言对双栏并列
+.lang-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+
+  .lang-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .control-label {
+      font-size: 11px;
+      color: $text-secondary;
+    }
+
+    .select-control {
+      padding: 7px 6px;
+      font-size: 12px;
+    }
+  }
+
+  .lang-arrow {
+    padding-bottom: 7px;
+    color: $mint;
+    font-size: 12px;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+}
+
+// 实时音频能量条卡片
+.audio-meter-card {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .meter-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+
+    .meter-label {
+      color: $text-secondary;
+    }
+
+    .meter-status {
+      color: $mint;
+      font-weight: 600;
+    }
+  }
+
+  .meter-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+
+    .meter-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, $emerald, $mint, $pink);
+      border-radius: 3px;
+      transition: width 0.06s ease;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    }
+  }
+}
+
+// 按钮体系
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border: none;
+  color: #031018;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+
+  &:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+    filter: brightness(0.95);
+  }
+
+  &.listening {
+    background: linear-gradient(135deg, $pink, $danger);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(244, 114, 182, 0.5);
+    animation: pulse-recording 1.6s infinite;
+  }
+}
+
+@keyframes pulse-recording {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.btn-secondary {
+  width: 100%;
+  background: $bg-input;
+  border: 1px solid $border-glass;
+  color: $text-primary;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+// ==========================================
+// 核心工作台主区域 (Main Workspace)
+// ==========================================
+.main-workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.stream-card {
+  flex: 1;
+  @include glassmorphism;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  &.stream-card-output {
+    background: rgba(15, 23, 42, 0.65);
+    border-color: rgba(56, 189, 248, 0.15);
+
+    &:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: $mint;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $emerald;
+        box-shadow: 0 0 6px $emerald;
+
+        &.status-cyan {
+          background: $cyan;
+          box-shadow: 0 0 6px $cyan;
+        }
+      }
+    }
+
+    .card-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .latency-badge {
+        font-size: 11px;
+        color: $text-secondary;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 2px 7px;
+        border-radius: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        &.badge-mint {
+          color: $mint;
+          border-color: rgba(167, 243, 208, 0.2);
+        }
+      }
+
+      .btn-tool {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid $border-glass;
+        color: $text-secondary;
+        font-size: 11px;
+        padding: 2px 7px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.12);
+          color: $text-primary;
+        }
+      }
+    }
+  }
+
+  .stream-content {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    overflow-y: auto;
+    user-select: text;
+    white-space: pre-wrap;
+    color: #e2e8f0;
+
+    &[placeholder]:empty::before {
+      content: attr(placeholder);
+      color: $text-dim;
+      font-style: italic;
+      font-size: 13px;
+    }
+
+    &.stream-content-target {
+      color: #ffffff;
+      font-size: 15.5px;
+      font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// 底部输入测试框
+.input-box-container {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  .input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: $bg-input;
+    border: 1px solid $border-glass;
+    border-radius: 10px;
+    padding: 0 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-within {
+      border-color: $border-focus;
+      box-shadow: 0 0 0 2px $mint-glow;
+    }
+
+    .input-icon {
+      font-size: 14px;
+      margin-right: 8px;
+      opacity: 0.6;
+    }
+
+    .text-input-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: $text-primary;
+      padding: 10px 0;
+      font-size: 13.5px;
+      outline: none;
+
+      &::placeholder {
+        color: $text-dim;
+      }
+    }
+  }
+
+  .btn-send {
+    background: linear-gradient(135deg, #10b981, #0284c7);
+    border: none;
+    color: #02121d;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 0 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 12px rgba(16, 185, 129, 0.2);
+
+    &:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    .send-arrow {
+      font-size: 11px;
+    }
+  }
+}
+
+// ==========================================
+// 悬浮同传字幕样式 (overlay.html)
+// ==========================================
 .overlay-body {
   background: transparent !important;
   display: flex;
@@ -284,13 +613,13 @@ body {
   height: 100vh;
 
   .subtitle-hud {
-    background: rgba(10, 15, 29, 0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(167, 243, 208, 0.25);
+    background: rgba(9, 13, 22, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(167, 243, 208, 0.3);
     border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    padding: 12px 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+    padding: 12px 18px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -305,8 +634,8 @@ body {
     }
 
     .hud-original {
-      font-size: 13px;
-      color: #94a3b8;
+      font-size: 12.5px;
+      color: $text-secondary;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -315,29 +644,23 @@ body {
 
     .hud-translated {
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 700;
       color: #fff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
       span.typing {
-        color: $accent-mint;
-        border-right: 2px solid $accent-mint;
+        color: $mint;
+        border-right: 2px solid $mint;
         animation: blink 0.8s infinite;
       }
     }
   }
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(244, 114, 182, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0); }
-}
-
 @keyframes blink {
   0%, 100% { border-color: transparent; }
-  50% { border-color: $accent-mint; }
+  50% { border-color: $mint; }
 }

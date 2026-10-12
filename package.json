@@ -4,10 +4,10 @@
   "description": "Harrio Translate (HT) - Next-generation real-time streaming translation desktop workstation",
   "main": "src/main/main.js",
   "scripts": {
-    "build:css": "node scripts/build-css.js",
-    "watch:css": "node scripts/build-css.js --watch",
-    "dev": "concurrently \"npm run watch:css\" \"electron .\"",
-    "start": "electron ."
+    "dev": "concurrently \"vite\" \"wait-on tcp:127.0.0.1:5173 && electron . --dev\"",
+    "build": "vite build",
+    "start": "electron .",
+    "build:css": "node scripts/build-css.js"
   },
   "keywords": [
     "realtime-translation",
@@ -20,11 +20,23 @@
   "author": "Harrio <2656450899@qq.com>",
   "license": "MIT",
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.6.1",
     "concurrently": "^10.0.6",
     "electron": "^44.7.0",
     "postcss": "^8.5.29",
     "sass": "^1.105.1",
-    "tailwindcss": "^3.4.19"
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.3.4",
+    "wait-on": "^9.5.1"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.55.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwind-merge": "^3.7.0"
   }
 }
