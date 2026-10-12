@@ -1,0 +1,343 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// ==========================================
+// SCSS 变量与 Mixin 定义
+// ==========================================
+$bg-primary: #0a0f1d;
+$bg-secondary: rgba(18, 24, 38, 0.75);
+$bg-tertiary: rgba(30, 41, 59, 0.6);
+$accent-mint: #a7f3d0;
+$accent-cyan: #38bdf8;
+$accent-pink: #f472b6;
+$border-glass: rgba(255, 255, 255, 0.08);
+
+@mixin glass-panel {
+  background: $bg-secondary;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid $border-glass;
+}
+
+// ==========================================
+// 全局样式与嵌套规则 (SCSS Nesting)
+// ==========================================
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: $bg-primary;
+  color: #f8fafc;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// 标题栏
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 42px;
+  padding: 0 16px;
+  background: rgba(10, 15, 29, 0.95);
+  border-bottom: 1px solid $border-glass;
+  -webkit-app-region: drag;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+
+    .brand-badge {
+      background: linear-gradient(135deg, $accent-mint, $accent-cyan);
+      color: #041019;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  }
+
+  .window-controls {
+    display: flex;
+    gap: 6px;
+    -webkit-app-region: no-drag;
+
+    .btn-ctrl {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #f8fafc;
+      }
+
+      &.btn-close:hover {
+        background: #ef4444;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// 核心工作台容器
+.container {
+  display: flex;
+  flex: 1;
+  padding: 16px;
+  gap: 16px;
+  height: calc(100vh - 42px);
+  overflow: hidden;
+
+  .sidebar {
+    width: 260px;
+    @include glass-panel;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .panel-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      letter-spacing: 1px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .control-label {
+        font-size: 12px;
+        color: #94a3b8;
+      }
+
+      .select-control, .input-control {
+        background: $bg-tertiary;
+        border: 1px solid $border-glass;
+        color: #f8fafc;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: rgba(167, 243, 208, 0.4);
+        }
+      }
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      border: none;
+      color: #041019;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s, transform 0.1s;
+
+      &:hover { opacity: 0.92; }
+      &:active { transform: scale(0.98); }
+
+      &.listening {
+        background: linear-gradient(135deg, $accent-pink, #ef4444);
+        color: #fff;
+        animation: pulse 1.5s infinite;
+      }
+    }
+
+    .btn-secondary {
+      background: $bg-tertiary;
+      border: 1px solid $border-glass;
+      color: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      transition: all 0.2s;
+
+      &:hover { background: rgba(255, 255, 255, 0.1); }
+    }
+  }
+
+  .main-workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+
+    .stream-card {
+      flex: 1;
+      @include glass-panel;
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .card-title {
+          font-size: 14px;
+          font-weight: 600;
+          color: $accent-mint;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+          }
+        }
+      }
+
+      .stream-content {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid $border-glass;
+        border-radius: 10px;
+        padding: 14px;
+        font-size: 15px;
+        line-height: 1.6;
+        overflow-y: auto;
+        user-select: text;
+        white-space: pre-wrap;
+
+        &:empty::before {
+          content: "等待音频或文本输入流中...";
+          color: #94a3b8;
+          font-style: italic;
+          font-size: 13px;
+        }
+      }
+    }
+
+    .input-box-container {
+      display: flex;
+      gap: 10px;
+
+      .text-input-field {
+        flex: 1;
+        background: $bg-tertiary;
+        border: 1px solid $border-glass;
+        color: #f8fafc;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+
+        &:focus {
+          border-color: rgba(167, 243, 208, 0.4);
+        }
+      }
+    }
+  }
+}
+
+// 悬浮同传字幕样式
+.overlay-body {
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  height: 100vh;
+
+  .subtitle-hud {
+    background: rgba(10, 15, 29, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(167, 243, 208, 0.25);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    padding: 12px 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    -webkit-app-region: drag;
+    cursor: move;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: rgba(167, 243, 208, 0.6);
+    }
+
+    .hud-original {
+      font-size: 13px;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .hud-translated {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      span.typing {
+        color: $accent-mint;
+        border-right: 2px solid $accent-mint;
+        animation: blink 0.8s infinite;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 114, 182, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0); }
+}
+
+@keyframes blink {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: $accent-mint; }
+}
