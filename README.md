@@ -29,7 +29,7 @@
 ## 🏗️ 架构概览 (Architecture)
 
 ```text
-[ 音频 / 文本输入流 ] 
+[ 音频 / 文本输入流 ]
        │ (WebSocket / WebRTC)
        ▼
 ┌──────────────────────────────────────────────┐
@@ -52,19 +52,23 @@
 ## 🚀 快速上手 (Quick Start)
 
 ### 1. 克隆仓库
+
 ```bash
 git clone <your-repo-url>
 cd ht
 ```
 
 ### 2. 环境配置
+
 复制环境变量模版并填入对应的模型服务或 API Key：
+
 ```bash
 cp .env.example .env
 ```
 
 ### 3. 安装依赖与启动
-> *注：根据后续选定的技术栈（如 Node.js / Python / Go / Rust）选择对应的运行命令*
+
+> _注：根据后续选定的技术栈（如 Node.js / Python / Go / Rust）选择对应的运行命令_
 
 ```bash
 # 以 Node.js / 全栈工程为例：
@@ -86,8 +90,8 @@ npm run dev
 
 ## 👨‍💻 作者 (Author)
 
-* **Harrio**
-  * 📧 邮箱：[2656450899@qq.com](mailto:2656450899@qq.com)
+- **Harrio**
+  - 📧 邮箱：[2656450899@qq.com](mailto:2656450899@qq.com)
 
 ---
 
