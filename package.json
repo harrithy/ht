@@ -1,0 +1,23 @@
+{
+  "name": "harrio-translate",
+  "version": "0.1.0",
+  "description": "Harrio Translate (HT) - Next-generation real-time streaming translation desktop workstation",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "keywords": [
+    "realtime-translation",
+    "electron",
+    "harrio-translate",
+    "subtitles",
+    "asr",
+    "tts"
+  ],
+  "author": "Harrio <2656450899@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^44.7.0"
+  }
+}

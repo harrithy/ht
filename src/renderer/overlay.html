@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HT Subtitle Overlay</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="overlay-body">
+  <div class="subtitle-hud" id="hud-box">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 10px; font-weight: 700; color: var(--accent-mint); opacity: 0.8; letter-spacing: 0.5px;">HT 实时字幕 HUD</span>
+      <div style="display: flex; gap: 4px; -webkit-app-region: no-drag;">
+        <button id="overlay-hide" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 12px;">✕</button>
+      </div>
+    </div>
+    <div class="hud-original" id="overlay-original">Waiting for speech stream...</div>
+    <div class="hud-translated" id="overlay-translated">
+      <span id="overlay-text">Harrio Translate 实时字幕就绪</span>
+      <span class="typing"></span>
+    </div>
+  </div>
+
+  <script src="js/overlay.js"></script>
+</body>
+</html>
